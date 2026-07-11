@@ -1,3 +1,7 @@
+"routes.py - диспетчер запросов. принимает запрос по модели от models.py, вызывает нужную"
+"функциюю логики из services.py и возвращает результат в формате модели из models.py"
+
+
 from fastapi import APIRouter
 
 from .models import (

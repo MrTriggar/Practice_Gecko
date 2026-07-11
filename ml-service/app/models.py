@@ -1,3 +1,8 @@
+"models.py - словарь форматов данных."
+"Он описывает структуру json, которую сервис принимает и отдает, он не содержит"
+"никакой логики - только классы с полями или типами "
+
+
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -10,6 +15,7 @@ class TermInfo(BaseModel):
     term: str
     status: str                  # "approved", "wrong", "pending"
     suggestion: Optional[str] = None
+    category: Optional[str] = None
 
 
 class CheckTermsResponse(BaseModel):
