@@ -3,13 +3,13 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# Virtual env
+# Virtual environments
 .venv/
 
 # macOS
 .DS_Store
 
-# Local env files
+# Env files
 .env
 .env.*
 
