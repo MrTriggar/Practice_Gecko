@@ -1,0 +1,11 @@
+services:
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+    container_name: gecko-ml-service
+    ports:
+      - "8001:8001"
+    environment:
+      FRONTEND_ORIGIN: "http://localhost:3000"
+    restart: unless-stopped
