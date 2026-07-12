@@ -1,0 +1,22 @@
+[
+  {
+    "canonical": "YADRO",
+    "variants_wrong": ["ядро", "Ядро", "ЯДРО"],
+    "category": "brand"
+  },
+  {
+    "canonical": "TATLIN",
+    "variants_wrong": ["tatlin", "Tatlin", "Татлин", "ТАТЛИН"],
+    "category": "product"
+  },
+  {
+    "canonical": "API",
+    "variants_wrong": ["апи", "Апи", "АПИ"],
+    "category": "tech"
+  },
+  {
+    "canonical": "PostgreSQL",
+    "variants_wrong": ["postgres", "Postgres", "постгрес", "Постгрес"],
+    "category": "tech"
+  }
+]
