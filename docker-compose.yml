@@ -1,4 +1,40 @@
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: gecko-db
+    environment:
+      POSTGRES_USER: sander_user
+      POSTGRES_PASSWORD: ZaUR_N1g
+      POSTGRES_DB: sander_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sander_user -d sander_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: gecko-backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: sander_user
+      DB_PASSWORD: ZaUR_N1g
+      DB_NAME: sander_db
+      ML_SERVICE_URL: http://ml-service:8001
+    depends_on:
+      db:
+        condition: service_healthy
+      ml-service:
+        condition: service_started
+
   ml-service:
     build:
       context: ./ml-service
@@ -6,6 +42,7 @@ services:
     container_name: gecko-ml-service
     ports:
       - "8001:8001"
-    environment:
-      FRONTEND_ORIGIN: "http://localhost:3000"
-    restart: unless-stopped
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8001
+
+volumes:
+  pgdata:
