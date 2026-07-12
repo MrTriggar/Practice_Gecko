@@ -17,9 +17,9 @@ func NewSegmentHandler(segments *services.SegmentService) *SegmentHandler {
 	return &SegmentHandler{segments: segments}
 }
 
-// GET /api/tasks/:taskId/segments
+// GET /api/tasks/:id/segments
 func (h *SegmentHandler) ListByTask(c *gin.Context) {
-	taskID, err := strconv.ParseInt(c.Param("taskId"), 10, 64)
+	taskID, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid task id"})
 		return
@@ -91,9 +91,9 @@ type importSegmentsRequest struct {
 	Segments []importSegmentItem `json:"segments" binding:"required"`
 }
 
-// POST /api/tasks/:taskId/segments/import — импорт JSON-предразметки при загрузке файла.
+// POST /api/tasks/:id/segments/import — импорт JSON-предразметки при загрузке файла.
 func (h *SegmentHandler) Import(c *gin.Context) {
-	taskID, err := strconv.ParseInt(c.Param("taskId"), 10, 64)
+	taskID, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid task id"})
 		return

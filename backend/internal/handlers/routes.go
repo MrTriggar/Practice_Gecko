@@ -7,11 +7,11 @@ import (
 )
 
 type Handlers struct {
-	Auth    *AuthHandler
-	Tasks   *TaskHandler
+	Auth     *AuthHandler
+	Tasks    *TaskHandler
 	Segments *SegmentHandler
-	Terms   *TermHandler
-	Export  *ExportHandler
+	Terms    *TermHandler
+	Export   *ExportHandler
 }
 
 func RegisterRoutes(router *gin.Engine, h *Handlers, authService *services.AuthService) {
@@ -34,8 +34,8 @@ func RegisterRoutes(router *gin.Engine, h *Handlers, authService *services.AuthS
 		protected.POST("/tasks/:id/rework", h.Tasks.Rework)
 		protected.GET("/tasks/:id/export", h.Export.ExportTask)
 
-		protected.GET("/tasks/:taskId/segments", h.Segments.ListByTask)
-		protected.POST("/tasks/:taskId/segments/import", h.Segments.Import)
+		protected.GET("/tasks/:id/segments", h.Segments.ListByTask)
+		protected.POST("/tasks/:id/segments/import", h.Segments.Import)
 		protected.GET("/segments/:id", h.Segments.Get)
 		protected.POST("/segments", h.Segments.Create)
 		protected.PUT("/segments/:id", h.Segments.Update)

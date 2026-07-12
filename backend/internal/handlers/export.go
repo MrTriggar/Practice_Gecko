@@ -17,6 +17,7 @@ func NewExportHandler(export *services.ExportService) *ExportHandler {
 	return &ExportHandler{export: export}
 }
 
+// GET /api/tasks/:id/export?format=json|csv
 func (h *ExportHandler) ExportTask(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -32,7 +33,7 @@ func (h *ExportHandler) ExportTask(c *gin.Context) {
 		case services.ErrExportTaskNotFound:
 			c.JSON(http.StatusNotFound, gin.H{"error": "task not found"})
 		case services.ErrUnsupportedFormat:
-			c.JSON(http.StatusBadRequest, gin.H{"error": "unsupported format, use json or csv"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "unsupported format"})
 		default:
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
