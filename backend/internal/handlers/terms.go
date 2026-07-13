@@ -87,3 +87,21 @@ func (h *TermHandler) Update(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, term)
 }
+
+func (h *TermHandler) Delete(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
+		return
+	}
+
+	if err := h.terms.Delete(c.Request.Context(), id); err != nil {
+		if err == services.ErrTermNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "term not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.Status(http.StatusNoContent)
+}

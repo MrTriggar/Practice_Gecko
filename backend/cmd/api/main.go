@@ -48,7 +48,7 @@ func main() {
 	termService := services.NewTermService(termRepo)
 	exportService := services.NewExportService(taskRepo, segmentRepo)
 
-	h := handlers.Handlers{
+	h := &handlers.Handlers{
 		Auth:     handlers.NewAuthHandler(authService),
 		Tasks:    handlers.NewTaskHandler(taskService),
 		Segments: handlers.NewSegmentHandler(segmentService),
@@ -64,12 +64,6 @@ func main() {
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "Range"},
 		ExposeHeaders:    []string{"Content-Length", "Content-Range", "Accept-Ranges"},
 		AllowCredentials: true,
-	}))
-
-	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:5173"},
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
 	}))
 
 	router.Static("/uploads", "/app/uploads")

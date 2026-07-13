@@ -70,3 +70,14 @@ func (s *TermService) Update(ctx context.Context, id int64, input UpdateTermInpu
 
 	return term, nil
 }
+
+func (s *TermService) Delete(ctx context.Context, id int64) error {
+	term, err := s.terms.GetByID(ctx, id)
+	if err != nil {
+		return err
+	}
+	if term == nil {
+		return ErrTermNotFound
+	}
+	return s.terms.Delete(ctx, id)
+}

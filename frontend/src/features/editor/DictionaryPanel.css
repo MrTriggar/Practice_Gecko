@@ -1,0 +1,93 @@
+.dictionary-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dictionary-panel__loading,
+.dictionary-panel__empty {
+  font-size: 0.8rem;
+  color: #9a8bb0;
+}
+
+.dictionary-panel__add {
+  display: flex;
+  gap: 6px;
+}
+
+.dictionary-panel__add input {
+  flex: 1;
+  background: #241535;
+  border: 1px solid #3d2758;
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.dictionary-panel__add button {
+  background: #3d2758;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.dictionary-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dictionary-panel__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #1a0f28;
+  border-left: 3px solid #6b5c85;
+  flex-wrap: wrap;
+}
+
+.dictionary-panel__item--approved {
+  border-left-color: #3bc28f;
+}
+
+.dictionary-panel__item--rejected {
+  border-left-color: #c23b3b;
+  opacity: 0.6;
+}
+
+.dictionary-panel__text {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.dictionary-panel__actions {
+  display: flex;
+  gap: 4px;
+}
+
+.dictionary-panel__actions button {
+  background: transparent;
+  border: none;
+  color: #9a8bb0;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.dictionary-panel__actions button:hover {
+  color: #fff;
+}
+
+.dictionary-panel__comment {
+  width: 100%;
+  font-size: 0.75rem;
+  color: #9a8bb0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

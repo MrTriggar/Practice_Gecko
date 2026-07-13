@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { User, Sparkles, BookOpen, MessageSquare, BarChart3, ChevronRight, ChevronLeft } from 'lucide-react'
+import { DictionaryPanel } from './DictionaryPanel'
+import { MLAssistantPanel } from './MLAssistantPanel'
+import type { Segment } from '../../types/segment'
 import './RightSidebar.css'
 
 const TABS = [
@@ -10,7 +13,12 @@ const TABS = [
   { id: 'analytics', icon: BarChart3, label: 'Аналитика' },
 ]
 
-export function RightSidebar() {
+interface RightSidebarProps {
+  segments: Segment[]
+  projectId: number
+}
+
+export function RightSidebar({ segments, projectId }: RightSidebarProps) {
   const [activeTab, setActiveTab] = useState('ml')
   const [collapsed, setCollapsed] = useState(false)
 
@@ -44,8 +52,8 @@ export function RightSidebar() {
 
           <div className="right-sidebar__content">
             {activeTab === 'account' && <p>Информация об аккаунте пользователя</p>}
-            {activeTab === 'ml' && <p>AI-подсказки и проверка терминов появятся здесь</p>}
-            {activeTab === 'dictionary' && <p>Список терминов проекта (YADRO, TATLIN...)</p>}
+            {activeTab === 'ml' && <MLAssistantPanel segments={segments} />}
+            {activeTab === 'dictionary' && <DictionaryPanel projectId={projectId} />}
             {activeTab === 'comments' && <p>Комментарии верификатора</p>}
             {activeTab === 'analytics' && <p>Скорость разметки, статистика задач</p>}
           </div>

@@ -1,0 +1,93 @@
+.ml-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ml-panel__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ml-panel__actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #3d2758;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.ml-panel__actions button:hover {
+  background: #4d3468;
+}
+
+.ml-panel__actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ml-panel__loading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #9a8bb0;
+}
+
+.ml-panel__error {
+  font-size: 0.8rem;
+  color: #c23b3b;
+}
+
+.ml-panel__section h5 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #9a8bb0;
+  margin: 0 0 6px 0;
+}
+
+.ml-panel__term,
+.ml-panel__issue {
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #1a0f28;
+  border-left: 3px solid #6b5c85;
+  font-size: 0.8rem;
+  color: #fff;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ml-panel__term--approved {
+  border-left-color: #3bc28f;
+}
+
+.ml-panel__term--rejected {
+  border-left-color: #c23b3b;
+}
+
+.ml-panel__term-comment {
+  font-size: 0.7rem;
+  color: #9a8bb0;
+}
+
+.ml-panel__issue--high {
+  border-left-color: #c23b3b;
+}
+
+.ml-panel__issue--medium {
+  border-left-color: #e0b43c;
+}
+
+.ml-panel__issue-segment {
+  font-size: 0.7rem;
+  color: #9a8bb0;
+}

@@ -158,7 +158,7 @@ export function EditorPage() {
           </div>
         </main>
 
-        <RightSidebar />
+        <RightSidebar segments={segments} projectId={task?.project_id || 0} />
       </div>
     </div>
   )
