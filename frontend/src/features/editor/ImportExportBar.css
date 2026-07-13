@@ -1,0 +1,27 @@
+.import-export-bar {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.ie-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+}
+
+.ie-btn--import {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.ie-btn--export {
+  background: var(--color-accent-violet);
+  color: #fff;
+  border: none;
+}

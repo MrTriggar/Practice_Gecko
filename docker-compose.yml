@@ -29,6 +29,8 @@ services:
       DB_PASSWORD: ZaUR_N1g
       DB_NAME: sander_db
       ML_SERVICE_URL: http://ml-service:8001
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -46,3 +48,4 @@ services:
 
 volumes:
   pgdata:
+  uploads_data:

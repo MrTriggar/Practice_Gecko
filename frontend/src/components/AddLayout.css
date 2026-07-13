@@ -1,0 +1,25 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-layout__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 24px;
+  background: #241535;
+  border-bottom: 1px solid #3d2758;
+}
+
+.app-layout__brand {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.app-layout__main {
+  flex: 1;
+}

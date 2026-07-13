@@ -1,0 +1,29 @@
+.left-sidebar {
+  position: relative;
+  width: 220px;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  transition: width 0.2s ease;
+  flex-shrink: 0;
+}
+
+.left-sidebar--collapsed {
+  width: 40px;
+}
+
+.left-sidebar__toggle {
+  position: absolute;
+  top: 10px;
+  right: -14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-accent-violet);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
