@@ -1,24 +1,41 @@
-import { UserCircle } from 'lucide-react'
-import type { Speaker } from '../../types/speaker'
+import type { Segment } from '../../types/segment'
+import { getSpeakerColor } from './speakerColors'
 import './SpeakersPanel.css'
 
-const MOCK_SPEAKERS: Speaker[] = [
-  { id: 'S1', name: 'Спикер 1', color: '#a463e0' },
-  { id: 'S2', name: 'Спикер 2', color: '#e05a5a' },
-]
+interface SpeakersPanelProps {
+  segments: Segment[]
+  activeSpeaker?: string
+  onSelectSpeaker?: (speaker: string) => void
+}
 
-export function SpeakersPanel() {
+export function SpeakersPanel({ segments, activeSpeaker, onSelectSpeaker }: SpeakersPanelProps) {
+  const speakerIds = Array.from(new Set(segments.map((s) => s.speaker).filter(Boolean))) as string[]
+
   return (
     <div className="speakers-panel">
       <h4 className="speakers-panel__title">Спикеры</h4>
-      <div className="speakers-panel__list">
-        {MOCK_SPEAKERS.map((speaker) => (
-          <div key={speaker.id} className="speaker-item">
-            <UserCircle size={20} style={{ color: speaker.color }} />
-            <span>{speaker.name}</span>
-          </div>
-        ))}
-      </div>
+
+      {speakerIds.length === 0 ? (
+        <p className="speakers-panel__empty">Спикеры пока не назначены</p>
+      ) : (
+        <div className="speakers-panel__list">
+          {speakerIds.map((id) => {
+            const palette = getSpeakerColor(id)
+            const count = segments.filter((s) => s.speaker === id).length
+            return (
+              <button
+                key={id}
+                className={`speakers-panel__item ${activeSpeaker === id ? 'speakers-panel__item--active' : ''}`}
+                onClick={() => onSelectSpeaker?.(id)}
+              >
+                <span className="speakers-panel__dot" style={{ background: palette.border }} />
+                <span className="speakers-panel__label">{id}</span>
+                <span className="speakers-panel__count">{count}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

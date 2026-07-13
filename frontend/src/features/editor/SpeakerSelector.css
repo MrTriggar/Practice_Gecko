@@ -1,0 +1,34 @@
+.speaker-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.speaker-selector__item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+  background: #241535;
+  color: #fff;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.speaker-selector__item:hover {
+  background: #3d2758;
+}
+
+.speaker-selector__item--active {
+  background: #3d2758;
+  box-shadow: 0 0 0 1px currentColor;
+}
+
+.speaker-selector__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}

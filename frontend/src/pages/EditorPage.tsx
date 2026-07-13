@@ -31,6 +31,7 @@ export function EditorPage() {
   const [task, setTask] = useState<Task | null>(null)
   const [segments, setSegments] = useState<Segment[]>([])
   const [activeId, setActiveId] = useState<string>('')
+  const [activeSpeaker, setActiveSpeaker] = useState<string | undefined>(undefined)
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'idle'>('saved')
   const [activeTool, setActiveTool] = useState('select')
   const [loading, setLoading] = useState(true)
@@ -77,6 +78,30 @@ export function EditorPage() {
     [activeId]
   )
 
+  const handleSpeakerChange = useCallback(
+    (speaker: string) => {
+      if (!activeId) return
+
+      setSegments((prev) => prev.map((s) => (s.id === activeId ? { ...s, speaker } : s)))
+      setSaveStatus('saving')
+
+      updateSegment(Number(activeId), { speaker } as any)
+        .then(() => setSaveStatus('saved'))
+        .catch(() => {
+          console.error('Failed to save speaker')
+          setSaveStatus('idle')
+        })
+    },
+    [activeId]
+  )
+
+  const handleSegmentTimeChange = useCallback((id: string, start: number, end: number) => {
+    setSegments((prev) => prev.map((s) => (s.id === id ? { ...s, start, end } : s)))
+    updateSegment(Number(id), { start_time: start, end_time: end }).catch(() => {
+      console.error('Failed to save segment time')
+    })
+  }, [])
+
   if (loading) {
     return (
       <div className="editor-layout editor-layout--loading">
@@ -103,16 +128,32 @@ export function EditorPage() {
       </header>
 
       <div className="editor-layout__body">
-        <LeftSidebar />
+        <LeftSidebar
+          segments={segments}
+          activeSpeaker={activeSpeaker}
+          onSelectSpeaker={setActiveSpeaker}
+        />
 
         <main className="editor-layout__center">
           <VideoPanel ref={videoRef} videoUrl={mediaUrl} />
-          <WaveformPlayer audioUrl={mediaUrl} />
+          <WaveformPlayer
+            audioUrl={mediaUrl}
+            segments={segments}
+            activeId={activeId}
+            onSelectSegment={setActiveId}
+            onSegmentTimeChange={handleSegmentTimeChange}
+          />
           <ToolsPanel activeTool={activeTool} onSelectTool={setActiveTool} />
           <div className="editor-layout__text-section">
             <SegmentList segments={segments} activeId={activeId} onSelect={setActiveId} />
             {activeSegment && (
-              <TextEditor value={activeSegment.text} onChange={handleTextChange} saveStatus={saveStatus} />
+              <TextEditor
+                value={activeSegment.text}
+                speaker={activeSegment.speaker}
+                onChange={handleTextChange}
+                onSpeakerChange={handleSpeakerChange}
+                saveStatus={saveStatus}
+              />
             )}
           </div>
         </main>

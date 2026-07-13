@@ -1,42 +1,41 @@
-.waveform-panel {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 1.2rem 1.5rem;
-}
-
-.waveform-controls {
+.waveform-controls__speed,
+.waveform-controls__zoom {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 6px;
+  margin-left: 12px;
 }
 
-.waveform-play-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--color-accent-violet);
+.waveform-controls__label {
+  font-size: 0.75rem;
+  color: #9a8bb0;
+}
+
+.waveform-controls__select {
+  background: #241535;
   color: #fff;
+  border: 1px solid #3d2758;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+}
+
+.waveform-controls__zoom button {
+  background: transparent;
   border: none;
+  color: #fff;
   cursor: pointer;
-  transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
 }
 
-.waveform-play-btn:active {
-  transform: scale(0.92);
+.waveform-controls__zoom-slider {
+  width: 100px;
+  accent-color: #a463e0;
 }
 
-.waveform-time {
-  font-family: 'Quicksand', sans-serif;
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.waveform-container {
-  width: 100%;
+.waveform-loading {
+  font-size: 0.8rem;
+  color: #9a8bb0;
+  margin-left: 8px;
 }

@@ -57,6 +57,8 @@ func (s *ExportService) ExportTask(ctx context.Context, taskID int64, format str
 		return s.exportJSON(task, segments)
 	case "csv":
 		return s.exportCSV(task, segments)
+	case "srt":
+		return s.exportSRT(task, segments)
 	default:
 		return nil, ErrUnsupportedFormat
 	}
@@ -68,7 +70,6 @@ func (s *ExportService) exportJSON(task *models.Task, segments []models.Segment)
 	if err != nil {
 		return nil, err
 	}
-
 	return &ExportResult{
 		Filename:    fmt.Sprintf("task_%d.json", task.ID),
 		ContentType: "application/json",
@@ -83,7 +84,6 @@ func (s *ExportService) exportCSV(task *models.Task, segments []models.Segment) 
 	if err := writer.Write([]string{"start_time", "end_time", "text", "is_checked"}); err != nil {
 		return nil, err
 	}
-
 	for _, seg := range segments {
 		if err := writer.Write([]string{
 			strconv.FormatFloat(seg.StartTime, 'f', 2, 64),
@@ -94,7 +94,6 @@ func (s *ExportService) exportCSV(task *models.Task, segments []models.Segment) 
 			return nil, err
 		}
 	}
-
 	writer.Flush()
 	if err := writer.Error(); err != nil {
 		return nil, err
@@ -103,6 +102,29 @@ func (s *ExportService) exportCSV(task *models.Task, segments []models.Segment) 
 	return &ExportResult{
 		Filename:    fmt.Sprintf("task_%d.csv", task.ID),
 		ContentType: "text/csv",
+		Data:        buf.Bytes(),
+	}, nil
+}
+
+func formatSRTTime(seconds float64) string {
+	h := int(seconds) / 3600
+	m := (int(seconds) % 3600) / 60
+	s := int(seconds) % 60
+	ms := int((seconds - float64(int(seconds))) * 1000)
+	return fmt.Sprintf("%02d:%02d:%02d,%03d", h, m, s, ms)
+}
+
+func (s *ExportService) exportSRT(task *models.Task, segments []models.Segment) (*ExportResult, error) {
+	var buf bytes.Buffer
+	for i, seg := range segments {
+		fmt.Fprintf(&buf, "%d\n", i+1)
+		fmt.Fprintf(&buf, "%s --> %s\n", formatSRTTime(seg.StartTime), formatSRTTime(seg.EndTime))
+		fmt.Fprintf(&buf, "%s\n\n", seg.Text)
+	}
+
+	return &ExportResult{
+		Filename:    fmt.Sprintf("task_%d.srt", task.ID),
+		ContentType: "text/plain",
 		Data:        buf.Bytes(),
 	}, nil
 }

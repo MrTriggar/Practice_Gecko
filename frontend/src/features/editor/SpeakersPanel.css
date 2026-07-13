@@ -1,34 +1,65 @@
 .speakers-panel {
-  padding: 0.8rem;
-  border-top: 1px solid var(--color-border);
+  padding: 16px 12px;
 }
 
 .speakers-panel__title {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 0.8rem;
-  color: var(--color-text-secondary);
-  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  color: #9a8bb0;
+  margin: 0 0 10px 0;
+}
+
+.speakers-panel__empty {
+  font-size: 0.8rem;
+  color: #6b5c85;
+  margin: 0;
 }
 
 .speakers-panel__list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 4px;
 }
 
-.speaker-item {
+.speakers-panel__item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.9rem;
-  color: var(--color-text);
-  padding: 0.4rem 0.5rem;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 6px 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #fff;
   cursor: pointer;
+  font-size: 0.85rem;
+  text-align: left;
 }
 
-.speaker-item:hover {
-  background: var(--color-bg);
+.speakers-panel__item:hover {
+  background: #241535;
+}
+
+.speakers-panel__item--active {
+  background: #3d2758;
+  border-color: #a463e0;
+}
+
+.speakers-panel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.speakers-panel__label {
+  flex: 1;
+}
+
+.speakers-panel__count {
+  font-size: 0.7rem;
+  color: #9a8bb0;
+  background: #241535;
+  padding: 1px 6px;
+  border-radius: 10px;
 }

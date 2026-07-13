@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
-
 	"sander/backend/internal/services"
+
+	"github.com/gin-gonic/gin"
 )
 
 type ExportHandler struct {
@@ -17,7 +17,7 @@ func NewExportHandler(export *services.ExportService) *ExportHandler {
 	return &ExportHandler{export: export}
 }
 
-// GET /api/tasks/:id/export?format=json|csv
+// GET /api/tasks/:id/export?format=json|csv|srt
 func (h *ExportHandler) ExportTask(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {

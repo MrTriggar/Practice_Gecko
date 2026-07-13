@@ -1,7 +1,16 @@
-import { apiClient } from './client'
 import type { Segment } from '../types/segment'
 
-interface BackendSegment {
+const BACKEND_ORIGIN = 'http://localhost:8080'
+
+function authHeaders(): HeadersInit {
+  const token = localStorage.getItem('token')
+  return {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  }
+}
+
+interface RawSegment {
   id: number
   task_id: number
   start_time: number
@@ -10,52 +19,59 @@ interface BackendSegment {
   is_checked: boolean
 }
 
-function toFrontend(s: BackendSegment): Segment {
+function mapSegment(raw: RawSegment): Segment {
   return {
-    id: String(s.id),
-    start: s.start_time,
-    end: s.end_time,
-    text: s.text,
-    isChecked: s.is_checked,
+    id: String(raw.id),
+    task_id: raw.task_id,
+    start: raw.start_time,
+    end: raw.end_time,
+    text: raw.text,
+    is_checked: raw.is_checked,
   }
 }
 
 export async function listSegmentsByTask(taskId: number): Promise<Segment[]> {
-  const data = await apiClient<BackendSegment[]>(`/tasks/${taskId}/segments`)
-  return data.map(toFrontend)
-}
-
-export async function getSegment(id: number): Promise<Segment> {
-  const data = await apiClient<BackendSegment>(`/segments/${id}`)
-  return toFrontend(data)
-}
-
-export async function createSegment(taskId: number, start: number, end: number, text: string): Promise<Segment> {
-  const data = await apiClient<BackendSegment>('/segments', {
-    method: 'POST',
-    body: JSON.stringify({ task_id: taskId, start_time: start, end_time: end, text }),
+  const res = await fetch(`${BACKEND_ORIGIN}/api/tasks/${taskId}/segments`, {
+    headers: authHeaders(),
   })
-  return toFrontend(data)
+  if (!res.ok) throw new Error('Failed to load segments')
+  const data: RawSegment[] = await res.json()
+  return data.map(mapSegment)
 }
 
-export async function updateSegment(id: number, patch: Partial<{ start: number; end: number; text: string; isChecked: boolean }>): Promise<Segment> {
-  const body: Record<string, unknown> = {}
-  if (patch.start !== undefined) body.start_time = patch.start
-  if (patch.end !== undefined) body.end_time = patch.end
-  if (patch.text !== undefined) body.text = patch.text
-  if (patch.isChecked !== undefined) body.is_checked = patch.isChecked
-
-  const data = await apiClient<BackendSegment>(`/segments/${id}`, {
+export async function updateSegment(
+  segmentId: number,
+  data: { text?: string; start_time?: number; end_time?: number; is_checked?: boolean }
+): Promise<Segment> {
+  const res = await fetch(`${BACKEND_ORIGIN}/api/segments/${segmentId}`, {
     method: 'PUT',
-    body: JSON.stringify(body),
+    headers: authHeaders(),
+    body: JSON.stringify(data),
   })
-  return toFrontend(data)
+  if (!res.ok) throw new Error('Failed to update segment')
+  const raw: RawSegment = await res.json()
+  return mapSegment(raw)
 }
 
-export async function importSegments(taskId: number, items: { start: number; end: number; text: string }[]): Promise<Segment[]> {
-  const data = await apiClient<BackendSegment[]>(`/tasks/${taskId}/segments/import`, {
+export async function importSegments(
+  taskId: number,
+  segments: { start: number; end: number; text: string }[]
+): Promise<Segment[]> {
+  const res = await fetch(`${BACKEND_ORIGIN}/api/tasks/${taskId}/segments/import`, {
     method: 'POST',
-    body: JSON.stringify({ segments: items }),
+    headers: authHeaders(),
+    body: JSON.stringify({ segments }),
   })
-  return data.map(toFrontend)
+  if (!res.ok) throw new Error('Failed to import segments')
+  const data: RawSegment[] = await res.json()
+  return data.map(mapSegment)
+}
+
+export async function exportTask(taskId: number, format: 'json' | 'csv' | 'srt'): Promise<Blob> {
+  const token = localStorage.getItem('token')
+  const res = await fetch(`${BACKEND_ORIGIN}/api/tasks/${taskId}/export?format=${format}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Export failed')
+  return res.blob()
 }

@@ -1,27 +1,27 @@
+import { SpeakerSelector } from './SpeakerSelector'
 import './TextEditor.css'
 
 interface TextEditorProps {
   value: string
-  onChange: (value: string) => void
+  speaker?: string
+  onChange: (text: string) => void
+  onSpeakerChange?: (speaker: string) => void
   saveStatus: 'saved' | 'saving' | 'idle'
 }
 
-export function TextEditor({ value, onChange, saveStatus }: TextEditorProps) {
+export function TextEditor({ value, speaker, onChange, onSpeakerChange, saveStatus }: TextEditorProps) {
   return (
     <div className="text-editor">
       <div className="text-editor__header">
-        <span>Текст сегмента</span>
+        <SpeakerSelector value={speaker} onChange={(s) => onSpeakerChange?.(s)} />
         <span className={`text-editor__status text-editor__status--${saveStatus}`}>
-          {saveStatus === 'saved' && 'Сохранено'}
-          {saveStatus === 'saving' && 'Сохранение...'}
-          {saveStatus === 'idle' && ''}
+          {saveStatus === 'saving' ? 'Сохранение...' : saveStatus === 'saved' ? 'Сохранено' : ''}
         </span>
       </div>
       <textarea
         className="text-editor__textarea"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Текст сегмента появится здесь..."
       />
     </div>
   )
